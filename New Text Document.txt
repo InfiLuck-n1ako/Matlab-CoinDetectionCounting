@@ -1,0 +1,46 @@
+clc;
+clear;
+close all;
+fprintf('=======中值滤波=====\n');
+img=imread('Image\coin223.jpg'); 
+figure;imshow(img);title('原始图像');
+ % 使用[3,3]的窗口
+img_med2 = medfilt2(img, [6,6]);
+figure;imshow(img_med2);title('6*6中值滤波');
+subplot(2,2,1),imshow(img_med2),title('滤波后图像')
+[m,n] = size(img_med2);       
+value = 129.01;              %设定阈值
+bw = zeros(m,n)+255;         %与img_med2等大的全0矩阵，+255就是把所有像素值都设置成白色
+for i = 2:m-1                      
+    for j = 2:n-1        
+        if img_med2(i,j)<value     %用for循环判断每个像素点
+            bw(i,j) = 0;           %在对应的矩阵中，小于设定阈值的变成黑色
+        end
+    end
+end
+imshow(img_med2);
+figure;
+imshow(bw);
+se = strel('disk', 4);
+Io = imopen(bw, se);
+Ie = imerode(Io, se);
+openbw = imreconstruct(Ie, bw);
+Ic = imclose(openbw, se);
+ subplot(2, 3, 2); imshow(Io, []); title('开操作图像');
+subplot(2, 3, 3); imshow(Ic, []); title('闭操作图像');
+ %获取连通区域，并进行显示
+% L = bwlabel(openbw,8);
+[L,num] = bwlabel(Ic,8);
+RGB = label2rgb(L);
+subplot(2,2,4),imshow(RGB),title('用rgb颜色标记不同区域')
+%统计标注连通域
+%使用外接矩形框选连通域，并使用形心确定连通域位置
+[l,m] = bwlabel(Ic);
+status=regionprops(l,'BoundingBox');
+centroid = regionprops(l,'Centroid');
+imshow(img);hold on;
+for i=1:m
+    rectangle('position',status(i).BoundingBox,'edgecolor','r');
+    text(centroid(i,1).Centroid(1,1)-15,centroid(i,1).Centroid(1,2)-15, num2str(i),'Color', 'r') 
+end 
+
