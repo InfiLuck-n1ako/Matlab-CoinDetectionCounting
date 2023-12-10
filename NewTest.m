@@ -17,16 +17,6 @@ Imaim2bw = imbinarize(Imadb, T2);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Imafil1 = [-1, -1, -1; 2, 2, 2; -1 -1 -1];
-% Imafil2 = [-1, -1, 2; -1, 2, -1; 2, -1, -1];
-% Imafil3 = [-1, 2, -1; -1, 2, -1;-1, 2, -1];
-% Imafil4 = [2, -1, -1; -1, 2, -1; -1, -1, 2];
-% 
-% Imagf1 = imfilter(Imagray, Imafil1);
-% Imagf2 = imfilter(Imagray, Imafil2);
-% Imagf3 = imfilter(Imagray, Imafil3);
-% Imagf4 = imfilter(Imagray, Imafil4);
-% Imagf = Imagf1+Imagf2+Imagf3+Imagf4; 
 
 figure;imshow(ImaSrc);
 % subplot(142), imshow(Imagf);
@@ -51,11 +41,11 @@ H=fspecial('gaussian', window, sigma);    % fspecial('gaussian', hsize, sigma)�
 
 Imagausf = openedImage;
 LoopNum = 0;
-while LoopNum < 9
+while LoopNum < 5
     Imagausf = imfilter(Imagausf,H,'replicate');
     LoopNum = LoopNum + 1;
 end
-figure;imshow(Imagausmed), title('开运算后的二值图像');
+figure;imshow(Imagausf), title('开运算后的二值图像');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -76,12 +66,53 @@ figure;imshow(Imagf);
 
 % 显示标记结果
 figure;imshow(label2rgb(labeledImage));
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% 霍夫圆检测
-[centers, radii] = imfindcircles(Imagf, [10 1000]);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% 绘制检测到的圆
-figure;imshow(ImaSrc);
-viscircles(centers, radii, 'EdgeColor', 'r');
+%Find Circles (Use Hough Transform)
+[centers, radii] = find_circles(Imagf, [110, 125]);
 
+%Remove overlapped circles
+[centersNew,radiiNew] = RemoveOverLap(centers,radii,125,1);
+
+MatA = [centersNew,radiiNew];
+%Draw
+% hough_circles_draw(ImaSrc, centersNew, radiiNew);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% %Find Circles (Use Hough Transform)
+% [centers, radii] = find_circles(Imagf, [120, 130]);
+% 
+% %Remove overlapped circles
+% [centersNew,radiiNew] = RemoveOverLap(centers,radii,100,1);
+
+disp(MatA);
+%Draw
+hough_circles_draw(ImaSrc, centersNew, radiiNew);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%Total coins calculation
+sumOf2s=0;
+sumOf1s=0;
+sumOf50s=0;
+sumOf10s=0;
+
+for i = 1 : size(radiiNew)     
+        if(radiiNew(i) > 125.75)
+          sumOf2s=sumOf2s+1 ;
+        elseif(radiiNew(i) > 118)
+          sumOf50s=sumOf50s+1;
+        elseif(radiiNew(i) > 110)
+          sumOf1s=sumOf1s+1;
+        else
+          sumOf10s=sumOf10s+1;
+        end          
+end
+
+fprintf('The number of 2 euro is %d\n', sumOf2s );
+fprintf('The number of 1 euro is %d\n', sumOf1s );
+fprintf('The number of 50 cent is %d\n', sumOf50s );
+fprintf('The number of 10 cent is %d\n', sumOf10s );
