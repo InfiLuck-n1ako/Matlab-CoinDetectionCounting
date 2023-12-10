@@ -202,8 +202,8 @@ end
 %if it is a matrix
 
 if z >= 1 && isnan(arg1(1)) %snip out all nans
-    in = in(:,all(isnan(in),1) == ~1);
-    out = in(all(isnan(in),2) == ~1,:);
+    in = in(:,all(isnan(in),1) ~= 1);
+    out = in(all(isnan(in),2) ~= 1,:);
     if flagflipped == 1
         out = out';
     end
@@ -211,8 +211,8 @@ if z >= 1 && isnan(arg1(1)) %snip out all nans
 end
 
 if z >= 1 && isinf(arg1(1)) %snip out all infs
-    in = in(:,all(isinf(in),1) == ~1);
-    out = in(all(isinf(in),2) == ~1,:);
+    in = in(:,all(isinf(in),1) ~= 1);
+    out = in(all(isinf(in),2) ~= 1,:);
     if flagflipped == 1
         out = out';
     end
@@ -220,17 +220,19 @@ if z >= 1 && isinf(arg1(1)) %snip out all infs
 end
 
 if z >= 1 && ~isreal(arg1(1)) %snip out complex numbers
-    in = in(:,all(imag(in),1) == ~1);
-    out = in(all(imag(in),2) == ~1,:);
+    in = in(:,all(imag(in),1) ~= 1);
+    out = in(all(imag(in),2) ~= 1,:);
     if flagflipped == 1
         out = out';
     end
     return
 end
 
+
+
 if z >= 1 && isempty(varargin) == 1 && ischar(arg1) && ischar(in(1,1)) %snip out all equal elements
     in = in(:,all(in==arg1,1) == ~1);
-    out = in(all(in==arg1,2) == ~1,:);
+    out = in(all(in==arg1,2) ~= 1,:);
     if flagflipped == 1
         out = out';
     end
@@ -239,8 +241,8 @@ end
 
 if z >= 1 && isempty(varargin) == 1 %snip out all equal elements
     arg1 = str2double(arg1);
-    in = in(:,all(in==arg1,1) == ~1);
-    out = in(all(in==arg1,2) == ~1,:);
+    in = in(:,all(in==arg1,1) ~= 1);
+    out = in(all(in==arg1,2) ~= 1,:);
     if flagflipped == 1
         out = out';
     end
