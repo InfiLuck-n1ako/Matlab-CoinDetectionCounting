@@ -1,6 +1,7 @@
-ImaSrc = imread('Image\coin4.jpg');
+ImaSrc = imread('Image\110-125.jpg');
 Imagray = rgb2gray(ImaSrc);
 Imadb = im2double(Imagray);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 T0 = 0.01;
 T1 = (min(Imadb(:)) + max(Imadb(:)))/2;
 r1 = find(Imadb > T1);
@@ -14,8 +15,6 @@ while abs(T2 -T1) < T0
 end
 
 Imaim2bw = imbinarize(Imadb, T2);
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 figure;imshow(ImaSrc);
@@ -30,10 +29,6 @@ se = strel('disk',32);  % 这里使用了一个半径为5的圆形结构元素�
 
 % 应用开运算
 openedImage = imopen(binaryImage, se);
-
-% 显示结果
-%figure;
-%subplot(1,4,1), imshow(binaryImage), title('二值图像');
 
 sigma=8;                                  % 标准差大小  
 window=double(uint8(3*sigma)*2+1);        % 窗口大小一半为3*sigma  
@@ -51,21 +46,12 @@ figure;imshow(Imagausf), title('开运算后的二值图像');
 
 % 标记连通域
 [labeledImage,coiNum] = bwlabel(~Imagausf, 4);
-
-Imafil1 = [-1, -1, -1; 2, 2, 2; -1 -1 -1];
-Imafil2 = [-1, -1, 2; -1, 2, -1; 2, -1, -1];
-Imafil3 = [-1, 2, -1; -1, 2, -1;-1, 2, -1];
-Imafil4 = [2, -1, -1; -1, 2, -1; -1, -1, 2];
-
-Imagf1 = imfilter(labeledImage, Imafil1);
-Imagf2 = imfilter(labeledImage, Imafil2);
-Imagf3 = imfilter(labeledImage, Imafil3);
-Imagf4 = imfilter(labeledImage, Imafil4);
-Imagf = Imagf1+Imagf2+Imagf3+Imagf4; 
-figure;imshow(Imagf);
-
 % 显示标记结果
 figure;imshow(label2rgb(labeledImage));
+
+% 边缘检测
+[Imagf, thresh] = edge(Imadb,'roberts', 16/255);
+figure;imshow(Imagf);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
