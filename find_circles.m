@@ -24,5 +24,5 @@ function [centers, radii] = find_circles(img, radius_range)
     end
     centers = centers(1:row_num,:);
     radii = radii(1:row_num);
-    disp(centers);
+    % disp(centers);
 end

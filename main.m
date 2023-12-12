@@ -61,7 +61,7 @@ figure;imshow(Imagf);
 %Remove overlapped circles
 [centersNew,radiiNew] = RemoveOverLap(centers,radii,125,1);
 
-MatA = [centersNew,radiiNew];
+%MatA = [centersNew,radiiNew];
 %Draw
 % hough_circles_draw(ImaSrc, centersNew, radiiNew);
 
@@ -73,7 +73,7 @@ MatA = [centersNew,radiiNew];
 % %Remove overlapped circles
 % [centersNew,radiiNew] = RemoveOverLap(centers,radii,100,1);
 
-disp(MatA);
+%disp(MatA);
 %Draw
 hough_circles_draw(ImaSrc, centersNew, radiiNew);
 
@@ -81,24 +81,15 @@ hough_circles_draw(ImaSrc, centersNew, radiiNew);
 
 
 %Total coins calculation
-sumOf2s=0;
-sumOf1s=0;
 sumOf50s=0;
 sumOf10s=0;
 
 for i = 1 : size(radiiNew)     
-        if(radiiNew(i) > 125.75)
-          sumOf2s=sumOf2s+1 ;
-        elseif(radiiNew(i) > 118)
+        if(radiiNew(i) > 118)
           sumOf50s=sumOf50s+1;
-        elseif(radiiNew(i) > 110)
-          sumOf1s=sumOf1s+1;
         else
           sumOf10s=sumOf10s+1;
         end          
 end
-
-fprintf('The number of 2 euro is %d\n', sumOf2s );
-fprintf('The number of 1 euro is %d\n', sumOf1s );
 fprintf('The number of 50 cent is %d\n', sumOf50s );
 fprintf('The number of 10 cent is %d\n', sumOf10s );

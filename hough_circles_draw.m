@@ -5,8 +5,8 @@ function hough_circles_draw(img, centers, radii)
     % centers: each row of centers represents the center point of a circle
     % radii: each row of radii represents the corresponding radius for the circle center
     
-    figure();
-    imshow(img);
+    % 创建一个新的图形窗口并指定名称
+    tempFig = figure('Name', 'MyFigure');imshow(img);
     hold on;
     
     for i = 1 : size(centers, 1)
@@ -25,8 +25,12 @@ function hough_circles_draw(img, centers, radii)
           plot(xx, yy,'c*', 'LineWidth', 1);
         else
           plot(xx, yy,'y', 'LineWidth', 1);
-        endif
+        end
         
         
     end
+        saveas(gcf, 'Image\temPicture20231212.png');
+        % 关闭图形窗口
+        close(tempFig);
+
 end
