@@ -184,7 +184,7 @@ function Open_Callback(hObject, ~, handles)
         image = imread(fullfile(filePath, fileName));
         
         % Display the image in the "imageAxes"
-        axes(handles.axes1);              %在第一个轴中显示
+        axes(handles.axes1);              
         imshow(image);
         % Store the image data in the handles structure for later use
         handles.SrcImage = image;
