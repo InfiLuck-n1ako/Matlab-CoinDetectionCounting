@@ -327,13 +327,13 @@ sumOf50s=0;
 sumOf10s=0;
 
 %Find Circles (Use Hough Transform)
-[centers, radii] = find_circles(Imagegf, [110, 125]);
+[centers, radii] = find_circles(Imagegf, [112, 119]);
 
 %Remove overlapped circles
 [~,radiiNew] = RemoveOverLap(centers,radii,125,1);
 
 for i = 1 : size(radiiNew)     
-        if(radiiNew(i) > 118)
+        if(radiiNew(i) > 115)
           sumOf50s=sumOf50s+1;
         else
           sumOf10s=sumOf10s+1;
