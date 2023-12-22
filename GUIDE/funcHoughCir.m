@@ -1,6 +1,6 @@
 function results = funcHoughCir(ImaSrc,Imagf)
     %Find Circles (Use Hough Transform)                     %%%%%%%%%%%%%%%%%%%%↓↓↓↓↓↓↓↓↓↓↓%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    [centers, radii] = find_circles(Imagf, [112, 119]);     %%%%%%%%%%%%%%%%%%%%此处修改参数%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    [centers, radii] = find_circles(Imagf, [110, 125]);     %%%%%%%%%%%%%%%%%%%%此处修改参数%%%%%%%%%%%%%%%%%%%%%%%%%%%
                                                             %%%%%%%%%%%%%%%%%%%%↑↑↑↑↑↑↑↑↑↑↑%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %Remove overlapped circles
     [centersNew,radiiNew] = RemoveOverLap(centers,radii,125,1);

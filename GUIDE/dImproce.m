@@ -100,9 +100,9 @@ function Help_Callback(~, ~, ~)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-str_help = ['Click "选择文件", select the image where you want to obtain the number and amount of coins, ' ...
-    'select coin detection and counting in "选择", and finally click "开始执行".' ...
-    'You can choose the save format in "文件","另存为".'];
+str_help = {'    Click "选择文件", select the image where you want to obtain the number and amount of coins, ';
+    '    select coin detection and counting in "选择", and finally click "开始执行".';
+    '    You can choose the save format in "文件","另存为".'};
 msgbox(str_help,'提示信息');
 
 % --------------------------------------------------------------------
@@ -327,13 +327,13 @@ sumOf50s=0;
 sumOf10s=0;
 
 %Find Circles (Use Hough Transform)
-[centers, radii] = find_circles(Imagegf, [112, 119]);
+[centers, radii] = find_circles(Imagegf, [110, 125]);
 
 %Remove overlapped circles
 [~,radiiNew] = RemoveOverLap(centers,radii,125,1);
 
 for i = 1 : size(radiiNew)     
-        if(radiiNew(i) > 115)
+        if(radiiNew(i) > 118)
           sumOf50s=sumOf50s+1;
         else
           sumOf10s=sumOf10s+1;
