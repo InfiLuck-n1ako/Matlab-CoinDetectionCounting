@@ -1,4 +1,4 @@
-# dImaproce
+# Matlab-CoinDetectionCounting
 
 ## 禁止用以高校期末大作业
 
